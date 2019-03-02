@@ -5,7 +5,8 @@ const row = {
     margin: "3pt",
     position: "relative",
     height: "30px",
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
+    overflow: "hidden"
 }
 
 export default class SwimlaneRowView extends React.Component {

@@ -24,7 +24,7 @@ export class Swimlane {
     }
 
     addIdea(idea) {
-        let startMonth = Math.ceil(Math.random() * 12);
+        let startMonth = Math.ceil(Math.random() * 8);
         let endMonth = startMonth + Math.ceil(Math.random() * 6)
         this.items.push(
             {
