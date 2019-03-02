@@ -22,6 +22,22 @@ const rowContainer = {
 
 export default class SwimlaneView extends React.Component {
 
+    packItemsToRows(items) {
+        let sorted = [...items].sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+        let rows = [];
+        sorted.forEach((item) => {
+            let candidate = rows.find(
+                (candidateRow) =>
+                    item.startDate.getTime() > candidateRow[candidateRow.length - 1].endDate.getTime());
+            if (candidate) {
+                candidate.push(item);
+            } else {
+                rows.push([item]);
+            }
+        });
+        return rows;
+    }
+
     render() {
         let rows = this.packItemsToRows(this.props.swimlane.items);
         return (
@@ -42,9 +58,5 @@ export default class SwimlaneView extends React.Component {
                 </div>
             </div>
         )
-    }
-
-    packItemsToRows(items) {
-        return [items]
     }
 }

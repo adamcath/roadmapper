@@ -4,7 +4,8 @@ import SwimlaneRowItemView from "./SwimlaneRowItemView";
 const row = {
     margin: "3pt",
     position: "relative",
-    height: "30px"
+    height: "30px",
+    whiteSpace: "nowrap"
 }
 
 export default class SwimlaneRowView extends React.Component {

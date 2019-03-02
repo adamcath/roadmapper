@@ -2,9 +2,7 @@ export default class Roadmap {
     constructor(ideas) {
         this.swimlanes = [];
         ideas.forEach((idea) => {
-            idea.themes.forEach((theme) => {
-                this.getOrCreateSwimlane(theme).addIdea(idea);
-            });
+            this.getOrCreateSwimlane(idea.themes[0]).addIdea(idea);
         });
     }
 
@@ -26,6 +24,14 @@ export class Swimlane {
     }
 
     addIdea(idea) {
-        this.items.push({name: idea.summary});
+        let startMonth = Math.ceil(Math.random() * 12);
+        let endMonth = startMonth + Math.ceil(Math.random() * 6)
+        this.items.push(
+            {
+                key: idea.key,
+                name: idea.summary,
+                startDate: new Date("2019-" + startMonth + "-01"),
+                endDate: new Date("2019-" + endMonth + "-01")
+            });
     }
 }

@@ -18,7 +18,8 @@ export default class SwimlaneRowItemView extends React.Component {
             backgroundColor: "silver",
             padding: "3pt",
             margin: "3pt",
-            display: "inline-block"
+            display: "inline-block",
+            overflow: "hidden"
         };
 
         let startDate = this.props.item.startDate;
@@ -38,7 +39,11 @@ export default class SwimlaneRowItemView extends React.Component {
 
     render() {
         return (
-            <div style={this.computePosition()}>{this.props.item.name}</div>
+            <div style={this.computePosition()}>
+                <a href={"https://jira.corp.appdynamics.com/browse/" + this.props.item.key} target="_blank">
+                    {this.props.item.name}
+                </a>
+            </div>
         );
     }
 }
