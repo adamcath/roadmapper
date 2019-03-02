@@ -4,18 +4,21 @@ import SwimlaneRowView from "./SwimlaneRowView";
 const swimlane = {
     display: "flex",
     margin: "3pt",
+    border: "1px solid #dbdfe2"
 }
 
 const header = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "silver",
+    backgroundColor: "#f1f3f5",
+    color: "#7a66ff",
     width: "200px",
+    fontWeight: "bold",
+    fontSize: "11pt"
 }
 
 const rowContainer = {
-    backgroundColor: "gray",
     padding: "3pt",
     flexGrow: "1",
 }

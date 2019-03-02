@@ -32,7 +32,7 @@ function fetchIdeas(callback) {
   jiraClient.search.search(
       {
         jql: 'issuetype=idea and status=accepted',
-        maxResults: 10
+        maxResults: 50
       }, (error, searchResult) => {
         let result = [];
         searchResult.issues.forEach((issue) => {

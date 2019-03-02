@@ -15,7 +15,7 @@ export default class SwimlaneRowItemView extends React.Component {
 
     computePosition() {
         let result = {
-            backgroundColor: "silver",
+            backgroundColor: "#edeff0",
             padding: "3pt",
             margin: "3pt",
             display: "inline-block",
