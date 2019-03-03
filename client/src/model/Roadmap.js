@@ -1,3 +1,13 @@
+const swimlaneComparator = function(a, b) {
+    if (a.name === "None") {
+        return 1;
+    }
+    if (b.name === "None") {
+        return -1;
+    }
+    return a.name < b.name ? -1 : a.name > b.name;
+}
+
 export default class Roadmap {
     constructor(issues, groupBy1, groupBy2) {
         // debugger;
@@ -10,7 +20,8 @@ export default class Roadmap {
             }
             swimlane.addissue(issue);
         });
-        this.swimlanes.sort((a, b) => a.name < b.name ? -1 : a.name > b.name)
+        this.swimlanes.sort(swimlaneComparator);
+        this.swimlanes.forEach((s) => s.sort());
     }
 
     getOrCreateSwimlane(name) {
@@ -55,6 +66,10 @@ export class InternalSwimlane {
     hasChildSwimlanes() {
         return true;
     }
+
+    sort() {
+        this.subSwimlanes.sort(swimlaneComparator);
+    }
 }
 
 export class LeafSwimlane {
@@ -77,5 +92,9 @@ export class LeafSwimlane {
 
     hasChildSwimlanes() {
         return false;
+    }
+
+    sort() {
+
     }
 }
