@@ -57,7 +57,13 @@ class Client extends Component {
     }
 
     handleChange(newFilter) {
-        this.updateState({filter: newFilter, ideas: null});
+        let newState = {filter: newFilter}
+
+        if (this.state.filter.display !== newFilter.display) {
+            newState.ideas = null;
+        }
+
+        this.updateState(newState);
     }
 
     render() {
@@ -77,7 +83,11 @@ class Client extends Component {
                                     firstDate={firstDate}
                                     lastDate={lastDate}/>
                         ) :
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" width={128}/>
+                    <div style={{textAlign: "center"}}>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+                             width={128}
+                             alt="Loading"/>
+                    </div>
                 }
             </div>);
     }

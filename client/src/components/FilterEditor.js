@@ -24,10 +24,10 @@ export default class FilterEditor extends React.Component {
             groupBy1: this.groupBy1Select.value,
             groupBy2: this.groupBy2Select.value
         }
-        if (result.display == "initiative" && result.groupBy1 == "initiative") {
+        if (result.display === "initiative" && result.groupBy1 === "initiative") {
             result.groupBy1 = "theme";
         }
-        if (result.display == "initiative" && result.groupBy2 == "initiative") {
+        if (result.display === "initiative" && result.groupBy2 === "initiative") {
             result.groupBy2 = "none";
         }
         return result;
