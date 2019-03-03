@@ -33,8 +33,13 @@ function fetchIssues(jql, callback) {
         {
             jql: jql,
             maxResults: 1000,
-            fields: ['summary', 'customfield_24512', 'customfield_24510', 'assignee', 'issuelinks', 'issuetype']
+            fields: ['summary', 'customfield_24512', 'customfield_24510', 'assignee', 'issuelinks', 'issuetype'],
+            timeout: 60000
         }, (error, searchResult) => {
+            if (error) {
+                console.error(error);
+                callback([]);
+            }
             let result = [];
             searchResult.issues.forEach((issue) => {
                 // console.log(JSON.stringify(Object.entries(issue.fields).filter((entry) => entry[1] != null), null, 2));
