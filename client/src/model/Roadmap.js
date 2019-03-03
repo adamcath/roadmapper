@@ -10,6 +10,7 @@ export default class Roadmap {
             }
             swimlane.addissue(issue);
         });
+        this.swimlanes.sort((a, b) => a.name < b.name ? -1 : a.name > b.name)
     }
 
     getOrCreateSwimlane(name) {

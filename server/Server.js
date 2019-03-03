@@ -32,7 +32,7 @@ function fetchIssues(jql, callback) {
     jiraClient.search.search(
         {
             jql: jql,
-            maxResults: 1000,
+            maxResults: 100,
             fields: ['summary', 'customfield_24512', 'assignee', 'issuelinks', 'issuetype']
         }, (error, searchResult) => {
             let result = [];
