@@ -27,7 +27,7 @@ export default class FilterEditor extends React.Component {
         if (result.display === "initiative" && result.groupBy1 === "initiative") {
             result.groupBy1 = "theme";
         }
-        if (result.display === "initiative" && result.groupBy2 === "initiative") {
+        if (result.groupBy1 == result.groupBy2) {
             result.groupBy2 = "none";
         }
         return result;
@@ -71,12 +71,15 @@ export default class FilterEditor extends React.Component {
                             onChange={this.handleChange}
                             value={this.props.filter.groupBy2}>
                         <option value={"none"}>{"None"}</option>
-                        <option value={"theme"}>{"Theme"}</option>
+                        {this.props.filter.groupBy1 !== "theme" &&
+                         <option value={"theme"}>{"Theme"}</option>}
                         {this.props.filter.display !== "initiative" &&
                          this.props.filter.groupBy1 !== "initiative" &&
                          <option value={"initiative"}>{"Product Initiative"}</option>}
-                        <option value={"primaryComponent"}>{"Primary Component"}</option>
-                        <option value={"productManager"}>{"Product Manager"}</option>
+                        {this.props.filter.groupBy1 !== "primaryComponent" &&
+                         <option value={"primaryComponent"}>{"Primary Component"}</option>}
+                        {this.props.filter.groupBy1 !== "productManager" &&
+                         <option value={"productManager"}>{"Product Manager"}</option>}
                     </select>
                 </span>
             </div>
