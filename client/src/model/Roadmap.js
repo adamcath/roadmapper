@@ -29,6 +29,8 @@ export default class Roadmap {
             return issue.assignee;
         } else if (fieldName === "initiative") {
             return issue.linkedInitiative;
+        } else if (fieldName === "primaryComponent") {
+            return issue.primaryComponent;
         } else {
             throw Error("Unknown group by field: " + fieldName);
         }

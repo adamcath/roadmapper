@@ -40,28 +40,43 @@ export default class FilterEditor extends React.Component {
     render() {
         return (
             <div style={editor}>
+
                 <span style={filterSection}>
                     <span>Display:</span>
-                    <select ref={(elt)=> this.displaySelect = elt} onChange={this.handleChange} value={this.props.filter.display}>
-                        <option value={"idea"}>{"Ideas"}</option>
+                    <select ref={(elt) => this.displaySelect = elt}
+                            onChange={this.handleChange}
+                            value={this.props.filter.display}>
                         <option value={"initiative"}>{"Product Initiatives"}</option>
+                        <option value={"idea"}>{"Ideas"}</option>
+                        <option value={"epic"}>{"Epics"}</option>
                     </select>
                 </span>
+
                 <span style={filterSection}>
                     <span>Group by:</span>
-                    <select ref={(elt)=> this.groupBy1Select = elt} onChange={this.handleChange} value={this.props.filter.groupBy1}>
+                    <select ref={(elt) => this.groupBy1Select = elt}
+                            onChange={this.handleChange}
+                            value={this.props.filter.groupBy1}>
                         <option value={"theme"}>{"Theme"}</option>
+                        {this.props.filter.display !== "initiative" &&
+                         <option value={"initiative"}>{"Product Initiative"}</option>}
+                        <option value={"primaryComponent"}>{"Primary Component"}</option>
                         <option value={"productManager"}>{"Product Manager"}</option>
-                        {this.props.filter.display !== "initiative" && <option value={"initiative"}>{"Product Initiative"}</option>}
                     </select>
                 </span>
+
                 <span style={filterSection}>
                     <span>Then by:</span>
-                    <select ref={(elt)=> this.groupBy2Select = elt} onChange={this.handleChange} value={this.props.filter.groupBy2}>
+                    <select ref={(elt) => this.groupBy2Select = elt}
+                            onChange={this.handleChange}
+                            value={this.props.filter.groupBy2}>
                         <option value={"none"}>{"None"}</option>
                         <option value={"theme"}>{"Theme"}</option>
+                        {this.props.filter.display !== "initiative" &&
+                         this.props.filter.groupBy1 !== "initiative" &&
+                         <option value={"initiative"}>{"Product Initiative"}</option>}
+                        <option value={"primaryComponent"}>{"Primary Component"}</option>
                         <option value={"productManager"}>{"Product Manager"}</option>
-                        {this.props.filter.display !== "initiative" && <option value={"initiative"}>{"Product Initiative"}</option>}
                     </select>
                 </span>
             </div>

@@ -32,8 +32,8 @@ function fetchIssues(jql, callback) {
     jiraClient.search.search(
         {
             jql: jql,
-            maxResults: 100,
-            fields: ['summary', 'customfield_24512', 'assignee', 'issuelinks', 'issuetype']
+            maxResults: 1000,
+            fields: ['summary', 'customfield_24512', 'customfield_24510', 'assignee', 'issuelinks', 'issuetype']
         }, (error, searchResult) => {
             let result = [];
             searchResult.issues.forEach((issue) => {
@@ -42,6 +42,7 @@ function fetchIssues(jql, callback) {
 
                 let assignee = issue.fields.assignee;
                 let themesField = issue.fields.customfield_24512;
+                let primaryComponentField = issue.fields.customfield_24510;
                 let initiativeLink =
                     issue.fields.issuetype.name !== "Product Initiative" &&
                     issue.fields.issuelinks &&
@@ -59,6 +60,7 @@ function fetchIssues(jql, callback) {
                         summary: issue.fields.summary,
                         assignee: assignee ? assignee.displayName : "None",
                         themes: themesField ? themesField.map((theme) => theme.value) : ['None'],
+                        primaryComponent: primaryComponentField ? primaryComponentField.value : "None",
                         linkedInitiative: initiativeLink ? initiativeLinkIssue.fields.summary : "None"
                     });
             });
@@ -70,6 +72,12 @@ function fetchIssues(jql, callback) {
 server.get('/api/idea', function (req, res) {
     fetchIssues(
         'project=idea and issuetype=idea and status=accepted',
+        (issues) => res.send(JSON.stringify(issues)));
+});
+
+server.get('/api/epic', function (req, res) {
+    fetchIssues(
+        'issuetype=epic and resolution=unresolved',
         (issues) => res.send(JSON.stringify(issues)));
 });
 

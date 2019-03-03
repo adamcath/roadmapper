@@ -17,11 +17,11 @@ const header = {
     fontWeight: "bold",
     fontSize: "11pt",
     borderRight: "1px solid #dbdfe2",
-    textAlign: "center"
+    textAlign: "center",
+    padding: "3pt",
 }
 
 const rowContainer = {
-    padding: "3pt",
     flexGrow: "1",
 }
 

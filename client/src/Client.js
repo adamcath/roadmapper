@@ -15,8 +15,8 @@ class Client extends Component {
             ideas: null,
             filter: {
                 display: "idea",
-                groupBy1: "initiative",
-                groupBy2: "none"
+                groupBy1: "primaryComponent",
+                groupBy2: "initiative"
             }
         };
 
@@ -43,7 +43,9 @@ class Client extends Component {
 
     loadIdeas() {
         var apiToCall;
-        if (this.state.filter.display === "idea") {
+        if (this.state.filter.display === "epic") {
+            apiToCall = "/api/epic";
+        } else if (this.state.filter.display === "idea") {
             apiToCall = "/api/idea";
         } else if (this.state.filter.display === "initiative") {
             apiToCall = "/api/initiative";
@@ -74,15 +76,15 @@ class Client extends Component {
                     onChange={this.handleChange}/>
                 {
                     this.state.ideas ?
-                        new Roadmap(this.state.ideas,
-                                    this.state.filter.groupBy1,
-                                    this.state.filter.groupBy2).swimlanes.map(
-                            (swimlane) =>
-                                <SwimlaneView
-                                    swimlane={swimlane}
-                                    firstDate={firstDate}
-                                    lastDate={lastDate}/>
-                        ) :
+                    new Roadmap(this.state.ideas,
+                                this.state.filter.groupBy1,
+                                this.state.filter.groupBy2).swimlanes.map(
+                        (swimlane) =>
+                            <SwimlaneView
+                                swimlane={swimlane}
+                                firstDate={firstDate}
+                                lastDate={lastDate}/>
+                    ) :
                     <div style={{textAlign: "center"}}>
                         <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
                              width={128}
