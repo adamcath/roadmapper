@@ -43,7 +43,6 @@ export default class SwimlaneView extends React.Component {
     }
 
     render() {
-        let rows = this.packItemsToRows(this.props.swimlane.items);
         return (
             <div style={swimlane}>
                 <div style={header}>
@@ -51,7 +50,14 @@ export default class SwimlaneView extends React.Component {
                 </div>
                 <div style={rowContainer}>
                     {
-                        rows.map(
+                        this.props.swimlane.hasChildSwimlanes() ?
+                        this.props.swimlane.subSwimlanes.map(
+                            (subSwimlane) =>
+                                <SwimlaneView swimlane={subSwimlane}
+                                              firstDate={this.props.firstDate}
+                                              lastDate={this.props.lastDate}/>
+                        ) :
+                        this.packItemsToRows(this.props.swimlane.items).map(
                             (row) =>
                                 <SwimlaneRowView
                                     row={row}

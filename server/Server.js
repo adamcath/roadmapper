@@ -24,34 +24,50 @@ cookieJar.setCookie(request.cookie('AJS.conglomerate.cookie="|hipchat.inapp.link
 
 const jiraClient = new JiraClient(
     {
-      host: "jira.corp.appdynamics.com",
-      cookie_jar: cookieJar
+        host: "jira.corp.appdynamics.com",
+        cookie_jar: cookieJar
     });
 
-function fetchIdeas(callback) {
-  jiraClient.search.search(
-      {
-        jql: 'issuetype=idea and status=accepted',
-        maxResults: 50
-      }, (error, searchResult) => {
-        let result = [];
-        searchResult.issues.forEach((issue) => {
-          result.push(
-              {
-                key: issue.key,
-                summary: issue.fields.summary,
-                themes: issue.fields.customfield_24512.map((theme) => theme.value)
-              });
-        });
-        callback(result);
-      }
-  );
+function fetchIssues(jql, callback) {
+    jiraClient.search.search(
+        {
+            jql: jql,
+            maxResults: 1000,
+            fields: ['summary', 'customfield_24512', 'assignee']
+        }, (error, searchResult) => {
+            let result = [];
+            searchResult.issues.forEach((issue) => {
+                // console.log(JSON.stringify(Object.entries(issue.fields).filter((entry) => entry[1] != null)));
+                // return;
+
+                let themesField = issue.fields.customfield_24512;
+                let assignee = issue.fields.assignee;
+
+                result.push(
+                    {
+                        key: issue.key,
+                        summary: issue.fields.summary,
+                        assignee: assignee ? assignee.displayName : "None",
+                        themes: themesField ? themesField.map((theme) => theme.value) : ['None']
+                    });
+            });
+            callback(result);
+        }
+    );
 }
 
 server.get('/api/idea', function (req, res) {
-  fetchIdeas((ideas) => res.send(JSON.stringify(ideas)));
+    fetchIssues(
+        'project=idea and issuetype=idea and resolution=unresolved',
+        (issues) => res.send(JSON.stringify(issues)));
+});
+
+server.get('/api/initiative', function (req, res) {
+    fetchIssues(
+        'project=idea and issuetype="Product Initiative" and resolution=unresolved',
+        (issues) => res.send(JSON.stringify(issues)));
 });
 
 server.listen(3001, function () {
-  console.log('Server started on port 3001!');
+    console.log('Server started on port 3001!');
 });
