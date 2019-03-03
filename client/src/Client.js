@@ -15,8 +15,8 @@ class Client extends Component {
             ideas: null,
             filter: {
                 display: "idea",
-                groupBy1: "theme",
-                groupBy2: "productManager"
+                groupBy1: "initiative",
+                groupBy2: "none"
             }
         };
 
@@ -68,14 +68,16 @@ class Client extends Component {
                     onChange={this.handleChange}/>
                 {
                     this.state.ideas ?
-                        new Roadmap(this.state.ideas, this.state.filter.groupBy1, this.state.filter.groupBy2).swimlanes.map(
+                        new Roadmap(this.state.ideas,
+                                    this.state.filter.groupBy1,
+                                    this.state.filter.groupBy2).swimlanes.map(
                             (swimlane) =>
                                 <SwimlaneView
                                     swimlane={swimlane}
                                     firstDate={firstDate}
                                     lastDate={lastDate}/>
                         ) :
-                        "loading..."
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" width={128}/>
                 }
             </div>);
     }

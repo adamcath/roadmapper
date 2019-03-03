@@ -33,22 +33,33 @@ function fetchIssues(jql, callback) {
         {
             jql: jql,
             maxResults: 1000,
-            fields: ['summary', 'customfield_24512', 'assignee']
+            fields: ['summary', 'customfield_24512', 'assignee', 'issuelinks', 'issuetype']
         }, (error, searchResult) => {
             let result = [];
             searchResult.issues.forEach((issue) => {
-                // console.log(JSON.stringify(Object.entries(issue.fields).filter((entry) => entry[1] != null)));
+                // console.log(JSON.stringify(Object.entries(issue.fields).filter((entry) => entry[1] != null), null, 2));
                 // return;
 
-                let themesField = issue.fields.customfield_24512;
                 let assignee = issue.fields.assignee;
+                let themesField = issue.fields.customfield_24512;
+                let initiativeLink =
+                    issue.fields.issuetype.name !== "Product Initiative" &&
+                    issue.fields.issuelinks &&
+                    issue.fields.issuelinks.find(
+                        (link) => ((link.type.name === "Requirements" || link.type.name === "Hierarchy") &&
+                                   (link.inwardIssue &&
+                                    link.inwardIssue.fields.issuetype.name === "Product Initiative") ||
+                                   (link.outwardIssue &&
+                                    link.outwardIssue.fields.issuetype.name === "Product Initiative")));
+                let initiativeLinkIssue = initiativeLink && (initiativeLink.inwardIssue || initiativeLink.outwardIssue);
 
                 result.push(
                     {
                         key: issue.key,
                         summary: issue.fields.summary,
                         assignee: assignee ? assignee.displayName : "None",
-                        themes: themesField ? themesField.map((theme) => theme.value) : ['None']
+                        themes: themesField ? themesField.map((theme) => theme.value) : ['None'],
+                        linkedInitiative: initiativeLink ? initiativeLinkIssue.fields.summary : "None"
                     });
             });
             callback(result);
@@ -58,7 +69,7 @@ function fetchIssues(jql, callback) {
 
 server.get('/api/idea', function (req, res) {
     fetchIssues(
-        'project=idea and issuetype=idea and resolution=unresolved',
+        'project=idea and issuetype=idea and status=accepted',
         (issues) => res.send(JSON.stringify(issues)));
 });
 

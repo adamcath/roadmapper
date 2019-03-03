@@ -16,7 +16,8 @@ const header = {
     width: "200px",
     fontWeight: "bold",
     fontSize: "11pt",
-    borderRight: "1px solid #dbdfe2"
+    borderRight: "1px solid #dbdfe2",
+    textAlign: "center"
 }
 
 const rowContainer = {

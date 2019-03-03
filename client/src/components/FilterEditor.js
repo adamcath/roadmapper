@@ -19,11 +19,18 @@ export default class FilterEditor extends React.Component {
     }
 
     getNewFilter() {
-        return {
+        let result = {
             display: this.displaySelect.value,
             groupBy1: this.groupBy1Select.value,
             groupBy2: this.groupBy2Select.value
         }
+        if (result.display == "initiative" && result.groupBy1 == "initiative") {
+            result.groupBy1 = "theme";
+        }
+        if (result.display == "initiative" && result.groupBy2 == "initiative") {
+            result.groupBy2 = "none";
+        }
+        return result;
     }
 
     handleChange() {
@@ -35,32 +42,29 @@ export default class FilterEditor extends React.Component {
             <div style={editor}>
                 <span style={filterSection}>
                     <span>Display:</span>
-                    <select ref={(elt)=> this.displaySelect = elt} onChange={this.handleChange}>
-                        {this.renderOption("idea", "Ideas", this.props.filter.display)}
-                        {this.renderOption("initiative", "Product Initiatives", this.props.filter.display)}
+                    <select ref={(elt)=> this.displaySelect = elt} onChange={this.handleChange} value={this.props.filter.display}>
+                        <option value={"idea"}>{"Ideas"}</option>
+                        <option value={"initiative"}>{"Product Initiatives"}</option>
                     </select>
                 </span>
                 <span style={filterSection}>
                     <span>Group by:</span>
-                    <select ref={(elt)=> this.groupBy1Select = elt} onChange={this.handleChange}>
-                        {this.renderOption("theme", "Theme", this.props.filter.groupBy1)}
-                        {this.renderOption("productManager", "Product Manager", this.props.filter.groupBy1)}
-                        {/*{this.renderOption("initiative", "Product Initiative", this.props.filter.groupBy1)}*/}
+                    <select ref={(elt)=> this.groupBy1Select = elt} onChange={this.handleChange} value={this.props.filter.groupBy1}>
+                        <option value={"theme"}>{"Theme"}</option>
+                        <option value={"productManager"}>{"Product Manager"}</option>
+                        {this.props.filter.display !== "initiative" && <option value={"initiative"}>{"Product Initiative"}</option>}
                     </select>
                 </span>
                 <span style={filterSection}>
                     <span>Then by:</span>
-                    <select ref={(elt)=> this.groupBy2Select = elt} onChange={this.handleChange}>
-                        {this.renderOption("theme", "Theme", this.props.filter.groupBy2)}
-                        {this.renderOption("productManager", "Product Manager", this.props.filter.groupBy2)}
-                        {/*{this.renderOption("initiative", "Product Initiative", this.props.filter.groupBy2)}*/}
+                    <select ref={(elt)=> this.groupBy2Select = elt} onChange={this.handleChange} value={this.props.filter.groupBy2}>
+                        <option value={"none"}>{"None"}</option>
+                        <option value={"theme"}>{"Theme"}</option>
+                        <option value={"productManager"}>{"Product Manager"}</option>
+                        {this.props.filter.display !== "initiative" && <option value={"initiative"}>{"Product Initiative"}</option>}
                     </select>
                 </span>
             </div>
         )
-    }
-
-    renderOption(value, label, prop) {
-        return <option value={value} selected={prop === value ? "selected" : ""}>{label}</option>
     }
 }
