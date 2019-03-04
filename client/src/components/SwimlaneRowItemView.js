@@ -37,12 +37,16 @@ export default class SwimlaneRowItemView extends React.Component {
         return result;
     }
 
+    scrubName(name) {
+        return name.replace(/\[.*\]/, "");
+    }
+
     render() {
         return (
             <div style={this.computePosition()}>
                 <a href={"https://jira.corp.appdynamics.com/browse/" + this.props.item.key}
                    target="_blank" rel="noopener noreferrer">
-                    {this.props.item.name}
+                    {this.scrubName(this.props.item.name)}
                 </a>
             </div>
         );
